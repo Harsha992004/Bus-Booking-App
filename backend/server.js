@@ -47,6 +47,11 @@ app.use('/api/buses', require('./routes/buses'));
 app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/admin', require('./routes/admin'));
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'Bus Booking API is running' });
+});
+
 // Error handler (must be last)
 app.use(errorHandler);
 
