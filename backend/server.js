@@ -4,8 +4,10 @@ const connectDB = require("./config/database");
 const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 
-// Load env variables FIRST
-dotenv.config();
+// Load env variables FIRST (only in development)
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 // Create app
 const app = express();
