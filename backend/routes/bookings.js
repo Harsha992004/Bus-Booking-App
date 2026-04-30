@@ -125,12 +125,15 @@ router.get('/:id', authenticate, async (req, res) => {
 // @access  Private
 router.post('/', authenticate, [
   body('bus').isMongoId().withMessage('Valid bus ID is required'),
-  body('passengerName').notEmpty().withMessage('Passenger name is required'),
-  body('passengerPhone').isMobilePhone().withMessage('Valid phone number is required'),
-  body('passengerEmail').isEmail().withMessage('Valid email is required'),
-  body('seatsBooked').isInt({ min: 1 }).withMessage('Must book at least 1 seat'),
+  body('fromCity').notEmpty().withMessage('From city is required'),
+  body('toCity').notEmpty().withMessage('To city is required'),
+  body('passengers').isArray({ min: 1 }).withMessage('At least one passenger is required'),
+  body('primaryContact.name').notEmpty().withMessage('Primary contact name is required'),
+  body('primaryContact.phone').isMobilePhone().withMessage('Valid phone number is required'),
+  body('primaryContact.email').isEmail().withMessage('Valid email is required'),
   body('travelDate').isISO8601().withMessage('Valid travel date is required'),
-  body('seatNumbers').isArray().withMessage('Seat numbers must be an array')
+  body('seatNumbers').isArray({ min: 1 }).withMessage('At least one seat number is required'),
+  body('boardingPoint.location').optional().notEmpty()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -144,13 +147,18 @@ router.post('/', authenticate, [
 
     const {
       bus,
-      passengerName,
-      passengerPhone,
-      passengerEmail,
+      fromCity,
+      toCity,
+      passengers,
+      primaryContact,
       seatsBooked,
       travelDate,
       seatNumbers,
-      specialRequests
+      seatCategory,
+      boardingPoint,
+      droppingPoint,
+      specialRequests,
+      paymentMethod
     } = req.body;
 
     // Check if bus exists and is active
@@ -192,22 +200,51 @@ router.post('/', authenticate, [
       }
     }
 
-    // Calculate total fare
-    const totalFare = busData.fare * seatsBooked;
+    // Calculate fare using new model method or fallback
+    const actualSeatsBooked = seatsBooked || passengers.length;
+    const farePerSeat = busData.calculateFare ? 
+      busData.calculateFare(fromCity, toCity) : 
+      (busData.baseFare || busData.fare);
+    
+    const baseFare = farePerSeat * actualSeatsBooked;
+    const gst = Math.round(baseFare * 0.05); // 5% GST
+    const serviceTax = Math.round(baseFare * 0.02); // 2% service tax
+    const totalFare = baseFare + gst + serviceTax;
 
-    // Create booking
+    // Create booking with enhanced model
     const booking = new Booking({
       bus,
       user: req.user._id,
-      passengerName,
-      passengerPhone,
-      passengerEmail,
-      seatsBooked,
-      seatNumbers: seatNumbers || [],
+      fromCity,
+      toCity,
+      boardingPoint: boardingPoint || { location: busData.fromCity, time: busData.departTime },
+      droppingPoint: droppingPoint || { location: busData.toCity, time: busData.arriveTime },
+      passengers: passengers.map((p, idx) => ({
+        name: p.name,
+        age: p.age,
+        gender: p.gender,
+        seatNumber: seatNumbers ? seatNumbers[idx] : p.seatNumber,
+        seatCategory: seatCategory || p.seatCategory || busData.busType,
+        idType: p.idType,
+        idNumber: p.idNumber,
+        contact: p.contact || primaryContact.phone,
+        specialRequirements: p.specialRequirements
+      })),
+      primaryContact,
+      seatsBooked: actualSeatsBooked,
+      seatNumbers: seatNumbers || passengers.map(p => p.seatNumber),
+      seatCategory: seatCategory || 'seater',
+      fareDetails: {
+        baseFare,
+        taxes: { gst, serviceTax },
+        discount: { couponCode: null, amount: 0 },
+        totalFare
+      },
       travelDate: new Date(travelDate),
-      totalFare,
       specialRequests,
-      status: 'confirmed'
+      paymentMethod: paymentMethod || 'credit-card',
+      status: 'pending',
+      paymentStatus: 'pending'
     });
 
     await booking.save();
