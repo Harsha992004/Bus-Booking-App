@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Search, Bus, Shield, Clock, CreditCard, Users, ArrowRight } from 'lucide-react';
+import { Search, Bus, Shield, Clock, CreditCard, Users, ArrowRight, Armchair, MapPin, Route, Star } from 'lucide-react';
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
@@ -27,35 +27,41 @@ const Home = () => {
 
   const features = [
     {
-      icon: Search,
-      title: 'Easy Search',
-      description: 'Find buses quickly with our advanced search filters'
+      icon: MapPin,
+      title: '30+ Cities Covered',
+      description: 'Book tickets across all major cities in Andhra Pradesh'
+    },
+    {
+      icon: Armchair,
+      title: 'Choose Your Seat',
+      description: 'Select preferred seats - Sleeper, Semi-Sleeper, or Seater'
     },
     {
       icon: Shield,
       title: 'Secure Booking',
-      description: 'Your personal and payment information is always secure'
+      description: 'Safe and secure payment with instant confirmation'
     },
     {
       icon: Clock,
-      title: 'Real-time Updates',
-      description: 'Get instant updates on bus schedules and availability'
+      title: 'Live Tracking',
+      description: 'Real-time bus location and arrival updates'
     },
     {
       icon: CreditCard,
-      title: 'Multiple Payment Options',
-      description: 'Choose from various payment methods for your convenience'
+      title: 'Easy Payments',
+      description: 'UPI, Cards, Net Banking - All payment modes accepted'
     },
     {
-      icon: Users,
-      title: '24/7 Support',
-      description: 'Our customer support team is always here to help'
-    },
-    {
-      icon: Bus,
-      title: 'Wide Network',
-      description: 'Access buses from multiple operators across the country'
+      icon: Star,
+      title: 'Best Fares',
+      description: 'Competitive pricing with special discounts for regular travelers'
     }
+  ];
+
+  // Andhra Pradesh popular cities
+  const popularCities = [
+    'Visakhapatnam', 'Vijayawada', 'Tirupati', 'Guntur', 
+    'Nellore', 'Kurnool', 'Rajahmundry', 'Kakinada'
   ];
 
   return (
@@ -65,10 +71,13 @@ const Home = () => {
         <div className="container py-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-              Your Journey Starts Here
+              Book My Seat
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-primary-100 animate-fade-in">
-              Book bus tickets online with ease and comfort
+            <p className="text-xl md:text-2xl mb-4 text-primary-100 animate-fade-in">
+              Andhra Pradesh State Transport Corporation
+            </p>
+            <p className="text-lg mb-8 text-primary-200 animate-fade-in">
+              Book bus tickets across 30+ cities in Andhra Pradesh. Safe, Fast & Reliable.
             </p>
 
             {/* Search Form */}
@@ -76,31 +85,37 @@ const Home = () => {
               <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    From
+                    From City
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="from"
                     value={searchForm.from}
                     onChange={handleInputChange}
-                    placeholder="Departure city"
                     className="input"
                     required
-                  />
+                  >
+                    <option value="">Select departure</option>
+                    {popularCities.map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    To
+                    To City
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="to"
                     value={searchForm.to}
                     onChange={handleInputChange}
-                    placeholder="Arrival city"
                     className="input"
                     required
-                  />
+                  >
+                    <option value="">Select destination</option>
+                    {popularCities.map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -136,10 +151,10 @@ const Home = () => {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose BusBooking?
+              Why Book My Seat?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              We make bus travel simple, affordable, and enjoyable for everyone
+              The official online booking platform for Andhra Pradesh State Transport
             </p>
           </div>
 
@@ -172,10 +187,10 @@ const Home = () => {
         <div className="container">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Ready to Start Your Journey?
+              Travel Across Andhra Pradesh
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Join thousands of satisfied travelers who trust BusBooking for their travel needs
+              Join millions of travelers who trust Book My Seat for safe and comfortable journeys
             </p>
             
             {!isAuthenticated ? (
@@ -212,16 +227,16 @@ const Home = () => {
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">30+</div>
+              <div className="text-primary-200">Cities Covered</div>
+            </div>
+            <div>
               <div className="text-3xl md:text-4xl font-bold mb-2">500+</div>
-              <div className="text-primary-200">Bus Routes</div>
+              <div className="text-primary-200">Daily Services</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold mb-2">50K+</div>
-              <div className="text-primary-200">Happy Customers</div>
-            </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold mb-2">100+</div>
-              <div className="text-primary-200">Bus Partners</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">1M+</div>
+              <div className="text-primary-200">Happy Travelers</div>
             </div>
             <div>
               <div className="text-3xl md:text-4xl font-bold mb-2">24/7</div>

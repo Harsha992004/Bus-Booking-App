@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
-  Bus, 
+  Armchair, 
+  Bus,
   Menu, 
   X, 
   User, 
@@ -14,7 +15,8 @@ import {
   CreditCard,
   Shield,
   Search,
-  Ticket
+  Ticket,
+  MapPin
 } from 'lucide-react';
 import Notifications from './Notifications';
 
@@ -35,8 +37,9 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { path: '/', label: 'Home', icon: Bus },
-    { path: '/search', label: 'Search Buses', icon: Search },
+    { path: '/', label: 'Home', icon: Armchair },
+    { path: '/search', label: 'Book Ticket', icon: Search },
+    { path: '/routes', label: 'Popular Routes', icon: MapPin },
   ];
 
   const userMenuItems = [
@@ -48,6 +51,7 @@ const Navbar = () => {
     { path: '/admin/dashboard', label: 'Dashboard', icon: Shield },
     { path: '/admin/buses', label: 'Manage Buses', icon: Bus },
     { path: '/admin/bookings', label: 'Manage Bookings', icon: Ticket },
+    { path: '/admin/routes', label: 'Manage Routes', icon: MapPin },
   ];
 
   return (
@@ -56,8 +60,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <Bus className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-gray-900">BusBooking</span>
+            <div className="bg-primary-600 p-1.5 rounded-lg">
+              <Armchair className="h-6 w-6 text-white" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-gray-900 leading-tight">Book My Seat</span>
+              <span className="text-xs text-primary-600 font-medium">Andhra Pradesh State Transport</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

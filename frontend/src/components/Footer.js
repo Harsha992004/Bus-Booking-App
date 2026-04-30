@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bus, Mail, Phone, MapPin } from 'lucide-react';
+import { Armchair, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -9,25 +9,30 @@ const Footer = () => {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <Bus className="h-8 w-8 text-primary-400" />
-              <span className="text-xl font-bold">BusBooking</span>
+              <div className="bg-primary-600 p-1.5 rounded-lg">
+                <Armchair className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <span className="text-xl font-bold">Book My Seat</span>
+                <span className="text-xs text-primary-400 block">Andhra Pradesh State Transport</span>
+              </div>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Your trusted partner for comfortable and affordable bus travel. 
-              Book your tickets online and enjoy a seamless travel experience.
+              Official online booking platform for Andhra Pradesh State Transport Corporation. 
+              Book bus tickets across 30+ cities in AP with ease and comfort.
             </p>
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-gray-300">
                 <Mail className="h-4 w-4" />
-                <span>support@busbooking.com</span>
+                <span>support@bookmyseat.ap.gov.in</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-300">
                 <Phone className="h-4 w-4" />
-                <span>1-800-BUS-BOOK</span>
+                <span>0866-2570000 (Toll Free)</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-300">
                 <MapPin className="h-4 w-4" />
-                <span>123 Travel Street, NY 10001</span>
+                <span>APSRTC Complex, Vijayawada, Andhra Pradesh</span>
               </div>
             </div>
           </div>
@@ -42,8 +47,13 @@ const Footer = () => {
                 </a>
               </li>
               <li>
+                <a href="/routes" className="text-gray-300 hover:text-white transition-colors">
+                  Popular Routes
+                </a>
+              </li>
+              <li>
                 <a href="/search" className="text-gray-300 hover:text-white transition-colors">
-                  Search Buses
+                  Book Ticket
                 </a>
               </li>
               <li>
@@ -89,7 +99,10 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} BusBooking. All rights reserved.
+            © {new Date().getFullYear()} Book My Seat - Andhra Pradesh State Transport Corporation. All rights reserved.
+          </p>
+          <p className="text-gray-500 text-sm mt-2">
+            Official Online Booking Platform for APSRTC
           </p>
         </div>
       </div>

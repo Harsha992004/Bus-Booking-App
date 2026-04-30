@@ -72,6 +72,15 @@ export const bookingsAPI = {
   cancelBooking: (id, reason) => api.put(`/bookings/${id}/cancel`, { reason }),
 };
 
+// Routes API (Andhra Pradesh Routes)
+export const routesAPI = {
+  getCities: () => api.get('/routes/cities'),
+  searchRoutes: (params) => api.get('/routes/search', { params }),
+  getPopularRoutes: () => api.get('/routes/popular'),
+  calculateFare: (params) => api.get('/routes/fare', { params }),
+  getBusTypes: () => api.get('/routes/bus-types'),
+};
+
 // Admin API
 export const adminAPI = {
   getDashboard: () => api.get('/admin/dashboard'),

@@ -1,3 +1,4 @@
+
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/database");
@@ -8,6 +9,7 @@ const errorHandler = require("./middleware/errorHandler");
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
+console.log("ENV CHECK:", process.env.MONGODB_URI);
 
 // Create app
 const app = express();
@@ -43,11 +45,19 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/buses', require('./routes/buses'));
-app.use('/api/bookings', require('./routes/bookings'));
-app.use('/api/admin', require('./routes/admin'));
+// Import routes
+const authRoutes = require('./routes/auth');
+const busRoutes = require('./routes/buses');
+const bookingRoutes = require('./routes/bookings');
+const adminRoutes = require('./routes/admin');
+const routeConfigRoutes = require('./routes/routes');
+
+// Mount routes
+app.use('/api/auth', authRoutes);
+app.use('/api/buses', busRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/routes', routeConfigRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
