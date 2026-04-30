@@ -5,7 +5,10 @@ const BusCard = ({ bus, onSelect, isSelected = false }) => {
   const getBusTypeColor = (type) => {
     switch (type) {
       case 'luxury': return 'bg-purple-100 text-purple-700';
-      case 'semi-luxury': return 'bg-blue-100 text-blue-700';
+      case 'ac-sleeper': return 'bg-indigo-100 text-indigo-700';
+      case 'sleeper': return 'bg-blue-100 text-blue-700';
+      case 'semi-luxury': return 'bg-green-100 text-green-700';
+      case 'deluxe': return 'bg-yellow-100 text-yellow-700';
       default: return 'bg-gray-100 text-gray-700';
     }
   };
@@ -13,7 +16,11 @@ const BusCard = ({ bus, onSelect, isSelected = false }) => {
   const getBusTypeLabel = (type) => {
     switch (type) {
       case 'luxury': return 'Luxury';
+      case 'ac-sleeper': return 'AC Sleeper';
+      case 'sleeper': return 'Sleeper';
       case 'semi-luxury': return 'Semi-Luxury';
+      case 'deluxe': return 'Deluxe';
+      case 'standard': return 'Standard';
       default: return 'Standard';
     }
   };
@@ -38,7 +45,10 @@ const BusCard = ({ bus, onSelect, isSelected = false }) => {
           <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
             <div className="flex items-center space-x-1">
               <Star className="h-4 w-4 text-yellow-500" />
-              <span>{bus.rating || '4.5'}</span>
+              <span>{bus.rating?.average ? bus.rating.average.toFixed(1) : '4.5'}</span>
+              {bus.rating?.totalReviews > 0 && (
+                <span className="text-gray-400">({bus.rating.totalReviews})</span>
+              )}
             </div>
             <div className="flex items-center space-x-1">
               <Users className="h-4 w-4" />
@@ -48,7 +58,7 @@ const BusCard = ({ bus, onSelect, isSelected = false }) => {
         </div>
         
         <div className="text-right">
-          <div className="text-2xl font-bold text-primary-600">${bus.fare}</div>
+          <div className="text-2xl font-bold text-primary-600">₹{bus.baseFare || bus.fare}</div>
           <div className="text-xs text-gray-500">per seat</div>
         </div>
       </div>
