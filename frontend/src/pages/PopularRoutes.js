@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, ArrowRight, Clock, Route, Bus } from 'lucide-react';
+import { MapPin, ArrowRight, Clock, Map, Bus } from 'lucide-react';
 import { routesAPI } from '../utils/api';
 import toast from 'react-hot-toast';
 
@@ -114,7 +114,7 @@ const PopularRoutes = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="bg-primary-100 p-2 rounded-lg">
-                    <Route className="h-5 w-5 text-primary-600" />
+                    <Map className="h-5 w-5 text-primary-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">{route.source}</h3>

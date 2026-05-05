@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Search, Bus, Shield, Clock, CreditCard, Users, ArrowRight, Armchair, MapPin, Route, Star } from 'lucide-react';
+import { Search, Bus, Shield, Clock, CreditCard, Users, ArrowRight, Armchair, MapPin, Star } from 'lucide-react';
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
