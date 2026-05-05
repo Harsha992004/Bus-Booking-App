@@ -16,6 +16,7 @@ import BusSearch from './pages/BusSearch';
 import BookingDetails from './pages/BookingDetails';
 import MyBookings from './pages/MyBookings';
 import Profile from './pages/Profile';
+import PopularRoutes from './pages/PopularRoutes';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminBuses from './pages/AdminBuses';
 import AdminBookings from './pages/AdminBookings';
@@ -67,6 +68,7 @@ function App() {
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
+              <Route path="/routes" element={<PopularRoutes />} />
               <Route path="/help" element={<Help />} />
               
               {/* Auth Routes */}

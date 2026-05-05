@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
   Armchair, 
-  Bus,
   Menu, 
   X, 
   User, 
@@ -51,7 +50,6 @@ const Navbar = () => {
     { path: '/admin/dashboard', label: 'Dashboard', icon: Shield },
     { path: '/admin/buses', label: 'Manage Buses', icon: Bus },
     { path: '/admin/bookings', label: 'Manage Bookings', icon: Ticket },
-    { path: '/admin/routes', label: 'Manage Routes', icon: MapPin },
   ];
 
   return (
