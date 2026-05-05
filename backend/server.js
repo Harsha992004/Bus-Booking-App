@@ -45,19 +45,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Import routes
-const authRoutes = require('./routes/auth');
-const busRoutes = require('./routes/buses');
-const bookingRoutes = require('./routes/bookings');
-const adminRoutes = require('./routes/admin');
-const routeConfigRoutes = require('./routes/routes');
-
-// Mount routes
-app.use('/api/auth', authRoutes);
-app.use('/api/buses', busRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/routes', routeConfigRoutes);
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/buses', require('./routes/buses'));
+app.use('/api/bookings', require('./routes/bookings'));
+app.use('/api/admin', require('./routes/admin'));
 
 // Health check route
 app.get('/', (req, res) => {
